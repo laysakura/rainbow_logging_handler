@@ -47,7 +47,7 @@ Install from PyPI
 #################
 .. code-block:: bash
 
-    $ pip install nextversion
+    $ pip install rainbow_logging_handler
 
 Install from Github repo
 ########################
