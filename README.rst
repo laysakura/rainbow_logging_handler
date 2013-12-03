@@ -66,4 +66,4 @@ License
 -------
 
 This is free and unencumbered public domain software. For more information,
-see <http://unlicense.org/> or the accompanying `UNLICENSE` file.
+see <http://unlicense.org/> or the accompanying `LICENSE.txt` file.

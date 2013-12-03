@@ -1,6 +1,12 @@
 Changelog for rainbow_logging_handler
 =====================================
 
+1.0.2 (unreleased)
+------------------
+
+- Fix on license
+
+
 1.0.1 (2013-12-03)
 ------------------
 
