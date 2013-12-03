@@ -1,29 +1,43 @@
 rainbow_logging_handler
 =======================
+.. image:: https://travis-ci.org/laysakura/rainbow_logging_handler.png?branch=master
+   :target: https://travis-ci.org/laysakura/rainbow_logging_handler
 
 Ultimate Python colorized logger.
 
+Usage
+-----
+
+.. image:: http://github.com/laysakura/rainbow_logging_handler/raw/master/doc/screenshot.png
+
+This script runs like above screenshot.
+
 .. code-block:: python
 
-    root_logger = logging.getLogger()
-    root_logger.setLevel(logging.DEBUG)
+    import sys
+    import logging
+    from rainbow_logging_handler import RainbowLoggingHandler
 
-    handler = RainbowLoggingHandler(sys.stderr)
-    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-    handler.setFormatter(formatter)
-    root_logger.addHandler(handler)
-    logger = logging.getLogger('test')
+    if __name__ == '__main__':
+        root_logger = logging.getLogger()
+        root_logger.setLevel(logging.DEBUG)
 
-    logger.debug("debug msg")
-    logger.info("info msg")
-    logger.warn("warn msg")
-    logger.error("error msg")
-    logger.critical("critical msg")
+        handler = RainbowLoggingHandler(sys.stderr)
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+        handler.setFormatter(formatter)
+        root_logger.addHandler(handler)
+        logger = logging.getLogger('test')
 
-    try:
-        raise RuntimeError("Opa!")
-    except Exception as e:
-        logger.exception(e)
+        logger.debug("debug msg")
+        logger.info("info msg")
+        logger.warn("warn msg")
+        logger.error("error msg")
+        logger.critical("critical msg")
+
+        try:
+            raise RuntimeError("Opa!")
+        except Exception as e:
+            logger.exception(e)
 
 
 Install
