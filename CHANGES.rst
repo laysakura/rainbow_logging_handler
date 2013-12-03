@@ -1,6 +1,12 @@
 Changelog for rainbow_logging_handler
 =====================================
 
+1.0.4 (unreleased)
+------------------
+
+- Updates `classifiers` on `setup.py`
+
+
 1.0.3 (2013-12-03)
 ------------------
 

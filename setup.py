@@ -9,7 +9,7 @@ setup(
     long_description = open('README.rst').read(),
     url              = 'https://github.com/laysakura/rainbow_logging_handler',
     license          = 'LICENSE.txt',
-    version          = '1.0.3',
+    version          = '1.0.4',
     author           = 'Mikko Ohtamaa, Sho Nakatani',
     author_email     = 'mikko@opensourcehacker.com, lay.sakura@gmail.com',
     install_requires = [
@@ -33,6 +33,10 @@ Programming Language :: Python :: 2.7
 Programming Language :: Python :: 3.2
 Programming Language :: Python :: 3.3
 Programming Language :: Python :: Implementation :: PyPy
-Operating System :: POSIX :: Linux
+Intended Audience :: Developers
+Topic :: Software Development :: Debuggers
+Topic :: System :: Logging
+Topic :: Terminals
+Topic :: Utilities
 '''.strip().splitlines()
 )
