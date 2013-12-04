@@ -5,11 +5,10 @@
 
 """
 import logging
+import os
 
-from logutils.colorize import ColorizingStreamHandler
 
-
-class RainbowLoggingHandler(ColorizingStreamHandler):
+class RainbowLoggingHandler(logging.StreamHandler):
     """ A colorful logging handler optimized for terminal debugging aestetichs.
 
     - Designed for diagnosis and debug mode output - not for disk logs
@@ -27,6 +26,19 @@ class RainbowLoggingHandler(ColorizingStreamHandler):
     would might want to customize after instiating the handler.
     """
 
+    # [todo] - customizable color_map
+    color_map = {
+        'black': 0,
+        'red': 1,
+        'green': 2,
+        'yellow': 3,
+        'blue': 4,
+        'magenta': 5,
+        'cyan': 6,
+        'white': 7,
+    }
+    (csi, reset) = ('\x1b[', '\x1b[0m')
+
     # Define color for message payload
     level_map = {
         logging.DEBUG: (None, 'cyan', False),
@@ -43,6 +55,16 @@ class RainbowLoggingHandler(ColorizingStreamHandler):
 
     #: Show logger name
     show_name = True
+
+    # Enable ANSI color code on Windows
+    if os.name == 'nt':
+        import colorama
+        colorama.init()
+
+    @property
+    def is_tty(self):
+        """Returns true if the handler's stream is a terminal."""
+        return getattr(self.stream, 'isatty', lambda: False)()
 
     def get_color(self, fg=None, bg=None, bold=False):
         """
@@ -154,3 +176,20 @@ class RainbowLoggingHandler(ColorizingStreamHandler):
             message = logging.StreamHandler.format(self, record)
 
         return message
+
+    def emit(self, record):
+        try:
+            msg = self.format(record)
+            msg = self._encode(msg)
+            self.stream.write(msg + getattr(self, 'terminator', '\n'))
+            self.flush()
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except:
+            self.handleError(record)
+
+    def _encode(self, msg):
+        if unicode and isinstance(msg, unicode):
+            enc = getattr(self.stream, 'encoding', 'utf-8')
+            return msg.encode(enc, 'replace')
+        return msg
