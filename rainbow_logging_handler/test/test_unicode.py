@@ -15,5 +15,3 @@ def setup():
 def test_unicode():
     logger = logging.getLogger('test_unicode')
     logger.debug('日本語ログ')
-    if (2, 6, 0) <= sys.version_info < (3, 0, 0):
-        logger.debug(u'日本語ログ')
