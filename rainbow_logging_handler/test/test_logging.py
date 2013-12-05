@@ -63,7 +63,7 @@ def test_custom_color():
 
 
 def test_format_all_column():
-    logger = logging.getLogger('test_logging_custom_format')
+    logger = logging.getLogger('test_logging_format_all_column')
     logger.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter('''
