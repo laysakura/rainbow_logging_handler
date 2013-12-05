@@ -88,7 +88,7 @@ class RainbowLoggingHandler(logging.StreamHandler):
     ):
         """Construct colorful stream handler
 
-        :param stream:  a stream to emit log
+        :param stream:  a stream to emit log (e.g. sys.stderr, sys.stdout, writable `file` object, ...)
         :type color_*:  `(<symbolic name of foreground color>, <symbolic name of background color>, <brightness flag>)`
         :param color_*: Each column's color. See `logging.Formatter` for supported column (`*`)
         """
