@@ -1,11 +1,15 @@
 Changelog for rainbow_logging_handler
 =====================================
 
+2.1.0 (2013-12-06)
+------------------
+
+- Adds usage w/ Django
+
 2.0.2 (2013-12-05)
 ------------------
 
 - Updates docstring of `RainbowLoggingHandler.__init__()`
-
 
 2.0.1 (2013-12-05)
 ------------------
