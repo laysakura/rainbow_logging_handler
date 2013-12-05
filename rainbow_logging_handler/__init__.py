@@ -40,14 +40,11 @@ class RainbowLoggingHandler(logging.StreamHandler):
 
     date_format = "%H:%M:%S"
 
-    #: How many characters reserve to function name logging
-    who_padding = 22
-
     #: Show logger name
     show_name = True
 
     #: (Default) format string, w/o color code
-    _fmt = '[%(asctime)s] %(name)s %(padded_who)s %(message)s'
+    _fmt = '[%(asctime)s] %(name)s %(funcName)s():%(lineno)d\t%(message)s'
 
     #: Color of each column
     _column_color = {
@@ -73,7 +70,7 @@ class RainbowLoggingHandler(logging.StreamHandler):
         color_pathname         = ('yellow', 'blue', False),
         color_filename         = ('yellow', 'blue', False),
         color_module           = ('yellow', 'blue', False),
-        color_lineno           = ('yellow', 'blue', False),
+        color_lineno           = ('cyan'  , None  , True),
         color_funcName         = ('green' , None  , False),
         color_created          = ('yellow', 'blue', False),
         color_asctime          = ('black' , None  , True),
@@ -151,29 +148,6 @@ class RainbowLoggingHandler(logging.StreamHandler):
         Get a special format string with ASCII color codes.
         """
         color_fmt = self._colorize_fmt(self._fmt, record.levelno)
-
-        who = [self.get_color("green"),
-               getattr(record, "funcName", ""),
-               "()",
-               self.get_color("black", None, True),
-               ":",
-               self.get_color("cyan"),
-               str(getattr(record, "lineno", 0))]
-
-        who = "".join(who)
-
-        # We need to calculate padding length manualy
-        # as color codes mess up string length based calcs
-        unformatted_who = getattr(record, "funcName", "") + "()" + \
-            ":" + str(getattr(record, "lineno", 0))
-
-        if len(unformatted_who) < self.who_padding:
-            spaces = " " * (self.who_padding - len(unformatted_who))
-        else:
-            spaces = ""
-
-        record.padded_who = who + spaces
-
         formatter = logging.Formatter(color_fmt, self.date_format)
         self.colorize_traceback(formatter, record)
         output = formatter.format(record)
