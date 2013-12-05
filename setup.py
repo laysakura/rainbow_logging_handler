@@ -36,6 +36,11 @@ Programming Language :: Python :: 2.7
 Programming Language :: Python :: 3.2
 Programming Language :: Python :: 3.3
 Programming Language :: Python :: Implementation :: PyPy
+Operating System :: POSIX :: Linux
+Operating System :: POSIX :: BSD
+Operating System :: Unix
+Operating System :: MacOS
+Operating System :: Microsoft :: Windows
 Intended Audience :: Developers
 Topic :: Software Development :: Debuggers
 Topic :: System :: Logging

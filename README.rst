@@ -5,9 +5,8 @@ rainbow_logging_handler
 
 Ultimate Python colorized logger.
 
-Usage
------
-
+Quick Usage
+-----------
 .. image:: http://github.com/laysakura/rainbow_logging_handler/raw/master/doc/screenshot.png
 
 This script runs like above screenshot.
@@ -18,15 +17,16 @@ This script runs like above screenshot.
     import logging
     from rainbow_logging_handler import RainbowLoggingHandler
 
-    if __name__ == '__main__':
-        root_logger = logging.getLogger()
-        root_logger.setLevel(logging.DEBUG)
+    def main_func():
+        # setup `logging` module
+        logger = logging.getLogger('test_logging')
+        logger.setLevel(logging.DEBUG)
+        formatter = logging.Formatter("[%(asctime)s] %(name)s %(funcName)s():%(lineno)d\t%(message)s")  # same as default
 
-        handler = RainbowLoggingHandler(sys.stderr)
-        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+        # setup `RainbowLoggingHandler`
+        handler = RainbowLoggingHandler(sys.stderr, color_funcName=('black', 'yellow', True))
         handler.setFormatter(formatter)
-        root_logger.addHandler(handler)
-        logger = logging.getLogger('test')
+        logger.addHandler(handler)
 
         logger.debug("debug msg")
         logger.info("info msg")
@@ -39,6 +39,44 @@ This script runs like above screenshot.
         except Exception as e:
             logger.exception(e)
 
+    if __name__ == '__main__':
+        main_func()
+
+
+Features
+--------
+
+Column-by-column colored log
+############################
+As apparent from above screenshot, each column of logs are differently colored.
+Even default coloring should make log reading easier.
+
+User custom color
+#################
+Every column colors are **customizable**.
+
+.. code-block:: python
+
+    formatter = logging.Formatter('%(pathname)s [%(module)s] - %(funcName)s:L%(lineno)d : %(message)s')
+    handler   = RainbowLoggingHandler(
+        sys.stderr,
+        # Customizing each column's color
+        color_pathname=('black', 'red'  , True), color_module=('yellow', None, False),
+        color_funcName=('blue' , 'white', True), color_lineno=('green' , None, False),
+    )
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    logger.info("hello custom world")
+
+Above code produces output like this.
+
+.. image:: http://github.com/laysakura/rainbow_logging_handler/raw/master/doc/screenshot-custom-color.png
+
+High portability
+################
+Linux, BSD, Mac OS, and Windows are supposed to be supported.
+
+Runs with both Python 2.6 or higher & Python 3.2 or higher.
 
 Install
 -------
@@ -58,9 +96,11 @@ Install from Github repo
     $ ./setup.py install
 
 Author
-======
+------
 
 Mikko Ohtamaa <mikko@opensourcehacker.com>, Sho Nakatani <lay.sakura@gmail.com>
+
+And special thanks to [10sr](https://github.com/10sr) for advice.
 
 License
 -------
