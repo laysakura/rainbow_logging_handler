@@ -5,8 +5,13 @@ rainbow_logging_handler
 
 Ultimate Python colorized logger.
 
-Quick Usage
------------
+.. contents:: :local:
+
+Usage
+-----
+
+Generic usage example
+#####################
 .. image:: http://github.com/laysakura/rainbow_logging_handler/raw/master/doc/screenshot.png
 
 This script runs like above screenshot.
@@ -41,6 +46,23 @@ This script runs like above screenshot.
 
     if __name__ == '__main__':
         main_func()
+
+
+Usage with Django
+##################################
+.. image:: http://github.com/miohtama/rainbow_logging_handler/raw/master/doc/screenshot_django.png
+
+`Django <https://www.djangoproject.com/>`_ is a popular Python web framework.
+
+Put the following to your ``settings.py`` to get more pleasant development server console output::
+
+    # Add this to your settings.py
+    if DEBUG:
+        # Install rainbow logging handler when running Django in develoment mode
+        LOGGING["handlers"]["rainbow"] = {"level": "DEBUG", "class": "rainbow_logging_handler.RainbowLoggingHandler"}
+        LOGGING["loggers"]['']["handlers"].append("rainbow")
+
+`More about configuring loggers for Django <https://docs.djangoproject.com/en/dev/topics/logging/>`_.
 
 
 Features
