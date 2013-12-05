@@ -58,7 +58,7 @@ Put the following to your ``settings.py`` to get more pleasant development serve
         LOGGING["handlers"]["rainbow"] = {"level": "DEBUG", "class": "rainbow_logging_handler.RainbowLoggingHandler"}
         LOGGING["loggers"]['']["handlers"].append("rainbow")
 
-`More about configuring loggers for Django <https://docs.djangoproject.com/en/dev/topics/logging/>`_
+`More about configuring loggers for Django <https://docs.djangoproject.com/en/dev/topics/logging/>`_.
 
 Install
 -------
