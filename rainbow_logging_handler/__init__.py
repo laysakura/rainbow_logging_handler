@@ -178,6 +178,7 @@ class RainbowLoggingHandler(logging.StreamHandler):
         return message
 
     def emit(self, record):
+        """Emit colorized `record` when called from `logging` module's printing functions"""
         try:
             msg = self.format(record)
             msg = self._encode(msg)
