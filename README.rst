@@ -100,7 +100,7 @@ Author
 
 Mikko Ohtamaa <mikko@opensourcehacker.com>, Sho Nakatani <lay.sakura@gmail.com>
 
-And special thanks to [10sr](https://github.com/10sr) for advice.
+And special thanks to `10sr <https://github.com/10sr>`_ for advice.
 
 License
 -------
