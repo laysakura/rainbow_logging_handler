@@ -26,40 +26,95 @@ class RainbowLoggingHandler(logging.StreamHandler):
     would might want to customize after instiating the handler.
     """
 
-    # [todo] - customizable color_map
     color_map = {
-        'black': 0,
-        'red': 1,
-        'green': 2,
-        'yellow': 3,
-        'blue': 4,
-        'magenta': 5,
-        'cyan': 6,
-        'white': 7,
+        'black'   : 0,
+        'red'     : 1,
+        'green'   : 2,
+        'yellow'  : 3,
+        'blue'    : 4,
+        'magenta' : 5,
+        'cyan'    : 6,
+        'white'   : 7,
     }
     (csi, reset) = ('\x1b[', '\x1b[0m')
 
-    # Define color for message payload
-    level_map = {
-        logging.DEBUG: (None, 'cyan', False),
-        logging.INFO: (None, 'white', False),
-        logging.WARNING: (None, 'yellow', True),
-        logging.ERROR: (None, 'red', True),
-        logging.CRITICAL: ('red', 'white', True),
-    }
-
     date_format = "%H:%M:%S"
-
-    #: How many characters reserve to function name logging
-    who_padding = 22
 
     #: Show logger name
     show_name = True
+
+    #: (Default) format string, w/o color code
+    _fmt = '[%(asctime)s] %(name)s %(funcName)s():%(lineno)d\t%(message)s'
+
+    #: Color of each column
+    _column_color = {
+        # '%(asctime)s' : ("black", None, True),
+        # ...
+        '%(message)s' : {
+            # logging.DEBUG   : ('cyan'  , None , False),
+            # ...
+        },
+    }
 
     # Enable ANSI color code on Windows
     if os.name == 'nt':
         import colorama
         colorama.init()
+
+    def __init__(
+        self, stream,
+
+        color_name             = ('white' , None, True),
+        color_levelno          = ('white' , None, False),
+        color_levelname        = ('white' , None, True),
+        color_pathname         = ('blue'  , None, True),
+        color_filename         = ('blue'  , None, True),
+        color_module           = ('yellow', None, True),
+        color_lineno           = ('cyan'  , None, True),
+        color_funcName         = ('green' , None, False),
+        color_created          = ('white' , None, False),
+        color_asctime          = ('black' , None, True),
+        color_msecs            = ('white' , None, False),
+        color_relativeCreated  = ('white' , None, False),
+        color_thread           = ('white' , None, False),
+        color_threadName       = ('white' , None, False),
+        color_process          = ('white' , None, False),
+
+        color_message_debug    = ('cyan'  , None , False),
+        color_message_info     = ('white' , None , False),
+        color_message_warning  = ('yellow', None , True),
+        color_message_error    = ('red'   , None , True),
+        color_message_critical = ('white' , 'red', True),
+    ):
+        """Construct colorful stream handler
+
+        :param stream:  a stream to emit log
+        :type color_*:  `(<symbolic name of foreground color>, <symbolic name of background color>, <brightness flag>)`
+        :param color_*: Each column's color. See `logging.Formatter` for supported column (`*`)
+        """
+        logging.StreamHandler.__init__(self, stream)
+
+        # set custom color
+        self._column_color['%(name)s']            = color_name
+        self._column_color['%(levelno)s']         = color_levelno
+        self._column_color['%(levelname)s']       = color_levelname
+        self._column_color['%(pathname)s']        = color_pathname
+        self._column_color['%(filename)s']        = color_filename
+        self._column_color['%(module)s']          = color_module
+        self._column_color['%(lineno)d']          = color_lineno
+        self._column_color['%(funcName)s']        = color_funcName
+        self._column_color['%(created)f']         = color_created
+        self._column_color['%(asctime)s']         = color_asctime
+        self._column_color['%(msecs)d']           = color_msecs
+        self._column_color['%(relativeCreated)d'] = color_relativeCreated
+        self._column_color['%(thread)d']          = color_thread
+        self._column_color['%(threadName)s']      = color_threadName
+        self._column_color['%(process)d']         = color_process
+        self._column_color['%(message)s'][logging.DEBUG]    = color_message_debug
+        self._column_color['%(message)s'][logging.INFO]     = color_message_info
+        self._column_color['%(message)s'][logging.WARNING]  = color_message_warning
+        self._column_color['%(message)s'][logging.ERROR]    = color_message_error
+        self._column_color['%(message)s'][logging.CRITICAL] = color_message_critical
 
     @property
     def is_tty(self):
@@ -92,59 +147,8 @@ class RainbowLoggingHandler(logging.StreamHandler):
         """
         Get a special format string with ASCII color codes.
         """
-
-        # Dynamic message color based on logging level
-        if record.levelno in self.level_map:
-            fg, bg, bold = self.level_map[record.levelno]
-        else:
-            # Defaults
-            bg = None
-            fg = "white"
-            bold = False
-
-        # Magician's hat
-        # https://www.youtube.com/watch?v=1HRa4X07jdE
-        template = [
-            "[",
-            self.get_color("black", None, True),
-            "%(asctime)s",
-            self.reset,
-            "] ",
-            self.get_color("white", None, True) if self.show_name else "",
-            "%(name)s " if self.show_name else "",
-            "%(padded_who)s",
-            self.reset,
-            " ",
-            self.get_color(bg, fg, bold),
-            "%(message)s",
-            self.reset,
-        ]
-
-        format = "".join(template)
-
-        who = [self.get_color("green"),
-               getattr(record, "funcName", ""),
-               "()",
-               self.get_color("black", None, True),
-               ":",
-               self.get_color("cyan"),
-               str(getattr(record, "lineno", 0))]
-
-        who = "".join(who)
-
-        # We need to calculate padding length manualy
-        # as color codes mess up string length based calcs
-        unformatted_who = getattr(record, "funcName", "") + "()" + \
-            ":" + str(getattr(record, "lineno", 0))
-
-        if len(unformatted_who) < self.who_padding:
-            spaces = " " * (self.who_padding - len(unformatted_who))
-        else:
-            spaces = ""
-
-        record.padded_who = who + spaces
-
-        formatter = logging.Formatter(format, self.date_format)
+        color_fmt = self._colorize_fmt(self._fmt, record.levelno)
+        formatter = logging.Formatter(color_fmt, self.date_format)
         self.colorize_traceback(formatter, record)
         output = formatter.format(record)
         # Clean cache so the color codes of traceback don't leak to other formatters
@@ -189,8 +193,28 @@ class RainbowLoggingHandler(logging.StreamHandler):
         except:
             self.handleError(record)
 
+    def setFormatter(self, formatter):
+        # HACK: peeping format string passed by user to `logging.Formatter()`
+        if formatter._fmt:
+            self._fmt = formatter._fmt
+        logging.StreamHandler.setFormatter(self, formatter)
+
     def _encode(self, msg):
+        """Encode `msg` if it is unicode"""
         if unicode and isinstance(msg, unicode):
             enc = getattr(self.stream, 'encoding', 'utf-8')
             return msg.encode(enc, 'replace')
         return msg
+
+    def _colorize_fmt(self, fmt, levelno):
+        """Adds ANSI color codes on plain `fmt`"""
+        for column in self._column_color.keys():
+            pos = fmt.find(column)
+            if pos == -1:
+                continue
+            (pre_col, post_col) = (fmt[:pos], fmt[pos + len(column):])
+            color_tup = self._column_color[column] if column != '%(message)s' else self._column_color[column][levelno]
+            fmt = ''.join([pre_col,
+                           self.reset, self.get_color(*color_tup), column, self.reset,
+                           post_col])
+        return fmt
