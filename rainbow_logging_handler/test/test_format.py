@@ -32,7 +32,7 @@ def teardown():
     os.remove(logpath)
 
 
-def test_format():
+def test_format_correctness():
     logger = logging.getLogger('test_format')
     logger.critical("critical msg")
 
