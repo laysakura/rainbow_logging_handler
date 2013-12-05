@@ -1,7 +1,7 @@
 Changelog for rainbow_logging_handler
 =====================================
 
-2.0.0 (unreleased)
+2.0.0 (2013-12-05)
 ------------------
 
 - Adds custom color & format feature
