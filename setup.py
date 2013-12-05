@@ -5,11 +5,11 @@ from setuptools import setup
 
 setup(
     name             = 'rainbow_logging_handler',
-    description      = 'Ultimate Python colorized logger',
+    description      = 'Ultimate Python colorized logger with user-custom color',
     long_description = open('README.rst').read(),
     url              = 'https://github.com/laysakura/rainbow_logging_handler',
     license          = 'LICENSE.txt',
-    version          = '1.0.4',
+    version          = '2.0.0',
     author           = 'Mikko Ohtamaa, Sho Nakatani',
     author_email     = 'mikko@opensourcehacker.com, lay.sakura@gmail.com',
     install_requires = [
