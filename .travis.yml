@@ -10,6 +10,7 @@ python:
 install:
   - "pip install ."
   - "python setup.py test"  # for installing `tests_require`
+  - "pip install nose-cov"  # why `nose-cov` isn't correctlly installed by `setup.py test` ?
 
 # command to run tests
 script:
