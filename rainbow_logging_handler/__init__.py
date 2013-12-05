@@ -200,6 +200,7 @@ class RainbowLoggingHandler(logging.StreamHandler):
         logging.StreamHandler.setFormatter(self, formatter)
 
     def _encode(self, msg):
+        """Encode `msg` if it is unicode"""
         if unicode and isinstance(msg, unicode):
             enc = getattr(self.stream, 'encoding', 'utf-8')
             return msg.encode(enc, 'replace')
