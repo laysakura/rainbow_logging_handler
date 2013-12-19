@@ -1,6 +1,12 @@
 Changelog for rainbow_logging_handler
 =====================================
 
+2.1.1 (2013-12-20)
+------------------
+
+- Updats Django example to match the RainbowLoggingHandler new initializer
+
+
 2.1.0 (2013-12-06)
 ------------------
 
