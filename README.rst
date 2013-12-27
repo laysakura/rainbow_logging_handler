@@ -3,6 +3,10 @@ rainbow_logging_handler
 .. image:: https://travis-ci.org/laysakura/rainbow_logging_handler.png?branch=master
    :target: https://travis-ci.org/laysakura/rainbow_logging_handler
 
+.. image:: https://pypip.in/v/rainbow_logging_handler/badge.png
+    :target: https://pypi.python.org/pypi/rainbow_logging_handler
+    :alt: Latest PyPI version
+
 Ultimate Python colorized logger.
 
 .. contents:: :local:

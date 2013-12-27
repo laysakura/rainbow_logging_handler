@@ -1,6 +1,12 @@
 Changelog for rainbow_logging_handler
 =====================================
 
+2.1.2 (unreleased)
+------------------
+
+- Adds version badge on README
+
+
 2.1.1 (2013-12-20)
 ------------------
 
