@@ -1,6 +1,12 @@
 Changelog for rainbow_logging_handler
 =====================================
 
+2.2.0 (unreleased)
+------------------
+
+- Adds custom time format support
+
+
 2.1.2 (2013-12-27)
 ------------------
 

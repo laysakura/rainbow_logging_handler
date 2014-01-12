@@ -38,8 +38,6 @@ class RainbowLoggingHandler(logging.StreamHandler):
     }
     (csi, reset) = ('\x1b[', '\x1b[0m')
 
-    date_format = "%H:%M:%S"
-
     #: Show logger name
     show_name = True
 
@@ -63,6 +61,8 @@ class RainbowLoggingHandler(logging.StreamHandler):
 
     def __init__(
         self, stream,
+
+        datefmt='%H:%M:%S',
 
         color_name             = ('white' , None, True),
         color_levelno          = ('white' , None, False),
@@ -89,10 +89,16 @@ class RainbowLoggingHandler(logging.StreamHandler):
         """Construct colorful stream handler
 
         :param stream:  a stream to emit log (e.g. sys.stderr, sys.stdout, writable `file` object, ...)
+        :type color_*:  str compatible to `time.strftime()` argument
+        :param datefmt: format of %(asctime)s, passed to `logging.Formatter.__init__()`.
+            If `None` is passed, `logging`'s default format of '%H:%M:%S,<milliseconds>' is used.
         :type color_*:  `(<symbolic name of foreground color>, <symbolic name of background color>, <brightness flag>)`
         :param color_*: Each column's color. See `logging.Formatter` for supported column (`*`)
         """
         logging.StreamHandler.__init__(self, stream)
+
+        # set timestamp format
+        self._datefmt = datefmt
 
         # set custom color
         self._column_color['%(name)s']            = color_name
@@ -148,7 +154,7 @@ class RainbowLoggingHandler(logging.StreamHandler):
         Get a special format string with ASCII color codes.
         """
         color_fmt = self._colorize_fmt(self._fmt, record.levelno)
-        formatter = logging.Formatter(color_fmt, self.date_format)
+        formatter = logging.Formatter(color_fmt, self._datefmt)
         self.colorize_traceback(formatter, record)
         output = formatter.format(record)
         # Clean cache so the color codes of traceback don't leak to other formatters
