@@ -9,7 +9,7 @@ import os
 
 
 class RainbowLoggingHandler(logging.StreamHandler):
-    """ A colorful logging handler optimized for terminal debugging aestetichs.
+    """ A colorful logging handler optimized for terminal debugging aesthetics.
 
     - Designed for diagnosis and debug mode output - not for disk logs
 
