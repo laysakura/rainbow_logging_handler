@@ -210,6 +210,9 @@ class RainbowLoggingHandler(logging.StreamHandler):
         import sys
         if (2, 6, 0) <= sys.version_info < (3, 0, 0) and unicode and isinstance(msg, unicode):
             enc = getattr(self.stream, 'encoding', 'utf-8')
+            if enc is None:
+                # An encoding property was found, but it was None
+                enc = 'utf-8'
             return msg.encode(enc, 'replace')
         return msg
 
