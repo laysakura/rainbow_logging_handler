@@ -1,6 +1,13 @@
 Changelog for rainbow_logging_handler
 =====================================
 
+2.2.1 (2014-07-29)
+------------------
+
+- Bugfix on encoding specification
+- Fix spelling mistake. Thanks to `dueyfinster <https://github.com/dueyfinster>`_ .
+
+
 2.2.0 (2014-01-13)
 ------------------
 

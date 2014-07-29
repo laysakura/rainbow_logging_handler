@@ -9,7 +9,7 @@ setup(
     long_description = open('README.rst').read(),
     url              = 'https://github.com/laysakura/rainbow_logging_handler',
     license          = 'LICENSE.txt',
-    version          = '2.2.0',
+    version          = '2.2.1',
     author           = 'Mikko Ohtamaa, Sho Nakatani',
     author_email     = 'mikko@opensourcehacker.com, lay.sakura@gmail.com',
     install_requires = [
