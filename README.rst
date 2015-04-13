@@ -54,6 +54,7 @@ This script runs like above screenshot.
 
 Usage with Django
 ##################################
+
 .. image:: http://github.com/miohtama/rainbow_logging_handler/raw/master/doc/screenshot_django.png
 
 `Django <https://www.djangoproject.com/>`_ is a popular Python web framework.
@@ -69,6 +70,17 @@ Put the following to your ``settings.py`` to get more pleasant development serve
 
 `More about configuring loggers for Django <https://docs.djangoproject.com/en/dev/topics/logging/>`_.
 
+
+Usage with Pyramid
+#######################
+
+Set ``handler_console`` section in ``develop.ini``:
+
+   [handler_console]
+   class = rainbow_logging_handler.RainbowLoggingHandler
+   args = (sys.stderr,)
+   level = NOTSET
+   format = [%(asctime)s] %(name)s %(funcName)s():%(lineno)d\t%(message)s
 
 Features
 --------
