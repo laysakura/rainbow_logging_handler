@@ -6,6 +6,7 @@
 """
 import logging
 import os
+import re
 
 
 class RainbowLoggingHandler(logging.StreamHandler):
@@ -46,9 +47,9 @@ class RainbowLoggingHandler(logging.StreamHandler):
 
     #: Color of each column
     _column_color = {
-        # '%(asctime)s' : ("black", None, True),
+        # 'asctime' : ("black", None, True),
         # ...
-        '%(message)s' : {
+        'message' : {
             # logging.DEBUG   : ('cyan'  , None , False),
             # ...
         },
@@ -101,26 +102,26 @@ class RainbowLoggingHandler(logging.StreamHandler):
         self._datefmt = datefmt
 
         # set custom color
-        self._column_color['%(name)s']            = color_name
-        self._column_color['%(levelno)s']         = color_levelno
-        self._column_color['%(levelname)s']       = color_levelname
-        self._column_color['%(pathname)s']        = color_pathname
-        self._column_color['%(filename)s']        = color_filename
-        self._column_color['%(module)s']          = color_module
-        self._column_color['%(lineno)d']          = color_lineno
-        self._column_color['%(funcName)s']        = color_funcName
-        self._column_color['%(created)f']         = color_created
-        self._column_color['%(asctime)s']         = color_asctime
-        self._column_color['%(msecs)d']           = color_msecs
-        self._column_color['%(relativeCreated)d'] = color_relativeCreated
-        self._column_color['%(thread)d']          = color_thread
-        self._column_color['%(threadName)s']      = color_threadName
-        self._column_color['%(process)d']         = color_process
-        self._column_color['%(message)s'][logging.DEBUG]    = color_message_debug
-        self._column_color['%(message)s'][logging.INFO]     = color_message_info
-        self._column_color['%(message)s'][logging.WARNING]  = color_message_warning
-        self._column_color['%(message)s'][logging.ERROR]    = color_message_error
-        self._column_color['%(message)s'][logging.CRITICAL] = color_message_critical
+        self._column_color['name']            = color_name
+        self._column_color['levelno']         = color_levelno
+        self._column_color['levelname']       = color_levelname
+        self._column_color['pathname']        = color_pathname
+        self._column_color['filename']        = color_filename
+        self._column_color['module']          = color_module
+        self._column_color['lineno']          = color_lineno
+        self._column_color['funcName']        = color_funcName
+        self._column_color['created']         = color_created
+        self._column_color['asctime']         = color_asctime
+        self._column_color['msecs']           = color_msecs
+        self._column_color['relativeCreated'] = color_relativeCreated
+        self._column_color['thread']          = color_thread
+        self._column_color['threadName']      = color_threadName
+        self._column_color['process']         = color_process
+        self._column_color['message'][logging.DEBUG]    = color_message_debug
+        self._column_color['message'][logging.INFO]     = color_message_info
+        self._column_color['message'][logging.WARNING]  = color_message_warning
+        self._column_color['message'][logging.ERROR]    = color_message_error
+        self._column_color['message'][logging.CRITICAL] = color_message_critical
 
     @property
     def is_tty(self):
@@ -219,12 +220,11 @@ class RainbowLoggingHandler(logging.StreamHandler):
     def _colorize_fmt(self, fmt, levelno):
         """Adds ANSI color codes on plain `fmt`"""
         for column in self._column_color.keys():
-            pos = fmt.find(column)
-            if pos == -1:
+            regex = "%%\(%s\).*?[A-Za-z]" % column
+            match = re.search(regex, fmt)
+            if not match:
                 continue
-            (pre_col, post_col) = (fmt[:pos], fmt[pos + len(column):])
-            color_tup = self._column_color[column] if column != '%(message)s' else self._column_color[column][levelno]
-            fmt = ''.join([pre_col,
-                           self.reset, self.get_color(*color_tup), column, self.reset,
-                           post_col])
+
+            color_tup = self._column_color[column] if column != 'message' else self._column_color[column][levelno]
+            fmt = fmt.replace(match.group(0), self.reset + self.get_color(*color_tup) + match.group(0) + self.reset)
         return fmt
