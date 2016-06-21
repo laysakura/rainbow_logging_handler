@@ -63,7 +63,7 @@ class RainbowLoggingHandler(logging.StreamHandler):
         self, stream,
 
         datefmt='%H:%M:%S',
-        passthrough=False,
+        ignore_tty_check=False,
 
         color_name             = ('white' , None, True),
         color_levelno          = ('white' , None, False),
@@ -93,7 +93,7 @@ class RainbowLoggingHandler(logging.StreamHandler):
         :type color_*:  str compatible to `time.strftime()` argument
         :param datefmt: format of %(asctime)s, passed to `logging.Formatter.__init__()`.
             If `None` is passed, `logging`'s default format of '%H:%M:%S,<milliseconds>' is used.
-        :param passthrough: don't check if the handler's stream is a terminal,
+        :param ignore_tty_check: don't check if the handler's stream is a terminal,
             useful for compatibility with PyCharm
         :type color_*:  `(<symbolic name of foreground color>, <symbolic name of background color>, <brightness flag>)`
         :param color_*: Each column's color. See `logging.Formatter` for supported column (`*`)
@@ -104,7 +104,7 @@ class RainbowLoggingHandler(logging.StreamHandler):
         self._datefmt = datefmt
 
         # set if we should ignore stream's is_tty check
-        self._passthrough = passthrough
+        self._ignore_tty_check = ignore_tty_check
 
         # set custom color
         self._column_color['%(name)s']            = color_name
@@ -186,7 +186,7 @@ class RainbowLoggingHandler(logging.StreamHandler):
 
         Takes a custom formatting path on a terminal.
         """
-        if self._passthrough or self.is_tty:
+        if self._ignore_tty_check or self.is_tty:
             message = self.colorize(record)
         else:
             message = logging.StreamHandler.format(self, record)
