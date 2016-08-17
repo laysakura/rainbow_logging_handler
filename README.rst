@@ -122,17 +122,17 @@ Install
 
 Install from PyPI
 #################
+
 .. code-block:: bash
 
-    $ pip install rainbow_logging_handler
+   pip install rainbow_logging_handler
 
 Install from Github repo
 ########################
+
 .. code-block:: bash
 
-    $ git clone https://github.com/laysakura/rainbow_logging_handler.git
-    $ cd rainbow_logging_handler
-    $ ./setup.py install
+   pip install -e "git+https://github.com/laysakura/rainbow_logging_handler.git#egg=rainbow_logging_handler"
 
 Author
 ------
