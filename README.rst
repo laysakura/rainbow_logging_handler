@@ -74,7 +74,7 @@ Put the following to your ``settings.py`` to get more pleasant development serve
 Usage with Pyramid
 #######################
 
-Set ``handler_console`` section in ``develop.ini``:
+Set ``handler_console`` section in ``develop.ini``::
 
    [handler_console]
    class = rainbow_logging_handler.RainbowLoggingHandler
