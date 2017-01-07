@@ -203,6 +203,7 @@ class RainbowLoggingHandler(logging.StreamHandler):
         # HACK: peeping format string passed by user to `logging.Formatter()`
         if formatter._fmt:
             self._fmt = formatter._fmt
+            self._datefmt = formatter.datefmt
         logging.StreamHandler.setFormatter(self, formatter)
 
     def _encode(self, msg):
