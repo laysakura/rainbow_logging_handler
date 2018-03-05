@@ -3,7 +3,7 @@ rainbow_logging_handler
 .. image:: https://travis-ci.org/laysakura/rainbow_logging_handler.png?branch=master
    :target: https://travis-ci.org/laysakura/rainbow_logging_handler
 
-.. image:: https://pypip.in/v/rainbow_logging_handler/badge.png
+.. image:: https://img.shields.io/pypi/v/rainbow_logging_handler.svg
     :target: https://pypi.python.org/pypi/rainbow_logging_handler
     :alt: Latest PyPI version
 
