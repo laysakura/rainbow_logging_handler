@@ -13,7 +13,6 @@ setup(
     author           = 'Mikko Ohtamaa, Sho Nakatani',
     author_email     = 'mikko@opensourcehacker.com, lay.sakura@gmail.com',
     install_requires = [
-        'logutils',
         'colorama',
     ],
     tests_require    = [
