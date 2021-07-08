@@ -74,7 +74,7 @@ Put the following to your ``settings.py`` to get more pleasant development serve
 Usage with Pyramid
 #######################
 
-Set ``handler_console`` section in ``develop.ini``:
+Set ``handler_console`` section in ``develop.ini``::
 
    [handler_console]
    class = rainbow_logging_handler.RainbowLoggingHandler
@@ -122,17 +122,17 @@ Install
 
 Install from PyPI
 #################
+
 .. code-block:: bash
 
-    $ pip install rainbow_logging_handler
+   pip install rainbow_logging_handler
 
 Install from Github repo
 ########################
+
 .. code-block:: bash
 
-    $ git clone https://github.com/laysakura/rainbow_logging_handler.git
-    $ cd rainbow_logging_handler
-    $ ./setup.py install
+   pip install -e "git+https://github.com/laysakura/rainbow_logging_handler.git#egg=rainbow_logging_handler"
 
 Author
 ------
